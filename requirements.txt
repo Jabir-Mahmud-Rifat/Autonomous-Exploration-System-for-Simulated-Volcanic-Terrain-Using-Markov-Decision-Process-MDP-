@@ -1,0 +1,9 @@
+
+
+## 🛠 Technologies & Tools  
+- **Python**  
+- **NumPy, SciPy** (Numerical computations)  
+- **OpenAI Gym** (Simulation environment)  
+- **Stable Baselines3** (Reinforcement Learning algorithms)  
+- **Matplotlib, Seaborn** (Visualization)  
+- **TensorFlow/PyTorch** (For deep reinforcement learning, if needed) 
