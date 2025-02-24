@@ -1,9 +1,28 @@
 
 
 ## 🛠 Technologies & Tools  
-- **Python**  
-- **NumPy, SciPy** (Numerical computations)  
-- **OpenAI Gym** (Simulation environment)  
-- **Stable Baselines3** (Reinforcement Learning algorithms)  
-- **Matplotlib, Seaborn** (Visualization)  
-- **TensorFlow/PyTorch** (For deep reinforcement learning, if needed) 
+# Simulation & Robotics
+ros
+gazebo
+openai-gym
+
+# Computer Vision & Data Processing
+opencv-python
+numpy
+scipy
+matplotlib
+
+# Machine Learning & Reinforcement Learning
+tensorflow
+torch
+scikit-learn
+
+# Path Planning & Navigation
+networkx
+shapely
+
+# GIS & Mapping
+geopandas
+
+# Miscellaneous
+requests
