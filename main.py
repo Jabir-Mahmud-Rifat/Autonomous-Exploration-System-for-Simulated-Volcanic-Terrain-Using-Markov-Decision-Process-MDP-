@@ -38,7 +38,9 @@ NUM_CRIERS = 2
 MAX_EPISODES_SMALL = 100  # Reduced number of episodes for faster training
 ALPHA = 0.1  # Learning rate
 GAMMA = 0.9  # Discount factor
-EPSILON = 0.2  # Exploration rate
+EPSILON = 1.0  # Initial epsilon (full exploration)
+EPSILON_MIN = 0.01  # Minimum epsilon value
+EPSILON_DECAY = 0.995  # Epsilon decay factor
 
 # Create grid
 grid = np.zeros((GRID_SIZE, GRID_SIZE))
@@ -89,8 +91,9 @@ def move(state, action):
         y = min(y + 1, GRID_SIZE - 1)
     return (x, y)
 
-# Q-learning algorithm for a reduced number of episodes
+# Q-learning algorithm for a reduced number of episodes with epsilon decay
 def q_learning_small():
+    global EPSILON  # To modify the epsilon in the function
     place_hazards()
     episodes = 0
     total_rewards = []
@@ -101,11 +104,11 @@ def q_learning_small():
         total_reward = 0  # Track total reward for the episode
 
         while not done:
-            # Choose action based on epsilon-greedy strategy
+            # Choose action based on epsilon-greedy strategy with decaying epsilon
             if random.uniform(0, 1) < EPSILON:
-                action = random.choice(get_possible_actions())
+                action = random.choice(get_possible_actions())  # Exploration
             else:
-                action = get_possible_actions()[np.argmax(Q_table_small[state[0], state[1]])]
+                action = get_possible_actions()[np.argmax(Q_table_small[state[0], state[1]])]  # Exploitation
             
             # Take action and observe new state
             next_state = move(state, action)
@@ -127,22 +130,27 @@ def q_learning_small():
         episodes += 1
         total_rewards.append(total_reward)
 
+        # Update epsilon: Decay epsilon after each episode
+        if EPSILON > EPSILON_MIN:
+            EPSILON *= EPSILON_DECAY
+
         # Print completion every 10 episodes
         if episodes % 10 == 0:
-            print(f'Episode {episodes}/{MAX_EPISODES_SMALL} completed. Total Reward: {total_reward}')
+            print(f'Episode {episodes}/{MAX_EPISODES_SMALL} completed. Total Reward: {total_reward}, Epsilon: {EPSILON:.4f}')
 
     print("Training complete!")
     return total_rewards
 
-# Train the Q-learning agent with the reduced number of episodes
+# Train the Q-learning agent with the reduced number of episodes and epsilon decay
 total_rewards_small = q_learning_small()
 
 # Visualize the rewards over episodes (to check agent’s learning progress)
 #plt.plot(total_rewards_small)
-#plt.title("Training Progress: Total Rewards per Episode (Reduced Episodes)")
+#plt.title("Training Progress: Total Rewards per Episode (Epsilon Decay)")
 #plt.xlabel("Episodes")
 #plt.ylabel("Total Reward")
 #plt.show()
+
 
 # Methods to Test and Visualize the Trained Agent
 
