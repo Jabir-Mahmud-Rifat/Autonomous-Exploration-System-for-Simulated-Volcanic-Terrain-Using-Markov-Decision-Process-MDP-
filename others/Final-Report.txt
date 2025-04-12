@@ -11,6 +11,32 @@ Markov Decision Processes (MDPs) have been extensively studied in autonomous exp
 
 
 3. Problem Definition and Approach
+3.1 Problem Overview
+The goal of our project is to design an intelligent, self-operating agent that is able to safely and successfully explore a simulated volcanic environment which is full of hazards for example: lava, craters, and toxic gases. The agent first learn to make smart decisions— choose a paths, let it explore as much as possible, steering clear of danger. To achieve this goal, we use a Markov Decision Process (MDP), a framework where the agent interacts with its surroundings and learns from the rewards it gets, eventually it will figure out the best way to move through the volcanic terrain.
+3.2 Understanding the MDP Framework
+The Markov Decision Process we are developing have several key components:
+•	States (S): These represent where the agent is on the grid and how close it is to hazards like lava or gas.
+•	Actions (A): The possible moves the agent can make—up, down, left, right, or checking the area for danger.
+•	Transition Function (P): This gives the likelihood of ending up in a new state after taking an action, affected by environmental factors such as lava flows or shifting gas.
+•	Rewards (R): The agent gets positive points for exploring safely and penalties if it enters hazardous zones.
+•	Policy (π): The agent's strategy for choosing actions based on its current state.
+The main objective is to earn as many rewards as possible by exploring wisely and learning to stick to safe paths over time.
+
+3.3 How Q-learning Works
+
+Q-learning is a reinforcement learning method we are using to train the agent. It helps the agent learn how valuable certain actions are in different situations. After taking an action, the agent updates its estimate of that action’s quality using this formula:
+Q(s,a)←Q(s,a)+α[R(s,a)+γmax⁡a′Q(s′,a′)−Q(s,a)]Q(s, a) \leftarrow Q(s, a) + \alpha \left[ R(s, a) + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]Q(s,a)←Q(s,a)+α[R(s,a)+γa′maxQ(s′,a′)−Q(s,a)] 
+Where:
+•	α (alpha) is the learning rate—how quickly the agent updates what it knows.
+•	γ (gamma) is the discount factor, which determines how much future rewards matter.
+•	R(s, a) is the reward earned by doing action a in state s.
+•	Q(s', a') is the estimated best future reward from the next state.
+This process repeats as the agent keeps learning what choices lead to better outcomes.
+3.4 Epsilon Decay Strategy
+To make the agent achieve the balance between trying new things (exploration) and sticking with what works (exploitation), we use an epsilon decay strategy. At first, the agent explores a lot, making random choices with a high epsilon value. Over time, epsilon decreases, encouraging the agent to use the knowledge it's gained. After every episode, epsilon is updated like this:
+ϵ←ϵ×EPSILON_DECAY\epsilon \leftarrow \epsilon \times \text{EPSILON\_DECAY}ϵ←ϵ×EPSILON_DECAY 
+This controlled decay (limited by a minimum threshold) helps the agent become more efficient as it learns.
+
 
 
 
