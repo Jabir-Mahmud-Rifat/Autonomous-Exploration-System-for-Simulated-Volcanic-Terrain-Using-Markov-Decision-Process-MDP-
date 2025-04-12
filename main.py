@@ -45,19 +45,29 @@ EPSILON_DECAY = 0.985  # Slower decay to ensure exploration lasts longer
 # Create grid
 grid = np.zeros((GRID_SIZE, GRID_SIZE))
 
-# Randomly place hazards (lava, gas)
+# Randomly place hazards (lava, gas, crater)
 def place_hazards():
     global grid
     grid = np.zeros((GRID_SIZE, GRID_SIZE))  # Reset grid
+    placed = set()
+
+    def get_unique_position():
+        while True:
+            pos = (random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1))
+            if pos not in placed:
+                placed.add(pos)
+                return pos
+
     for _ in range(NUM_LAVA):
-        x, y = random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
+        x, y = get_unique_position()
         grid[x, y] = 1  # Lava
     for _ in range(NUM_GAS):
-        x, y = random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
+        x, y = get_unique_position()
         grid[x, y] = 2  # Gas
     for _ in range(NUM_CRIERS):
-        x, y = random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
+        x, y = get_unique_position()
         grid[x, y] = 3  # Crater
+
 
 # Initialize Q-table
 Q_table_small = np.zeros((GRID_SIZE, GRID_SIZE, 4))  # (state, action) Q-values, 4 actions (up, down, left, right)
