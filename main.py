@@ -101,63 +101,68 @@ def move(state, action):
         y = min(y + 1, GRID_SIZE - 1)
     return (x, y)
 # Q-learning algorithm for a reduced number of episodes with epsilon decay
-def q_learning_small():
-    global EPSILON  # To modify the epsilon in the function
+# Q-learning algorithm
+def q_learning():
+    global EPSILON
     place_hazards()
     episodes = 0
     total_rewards = []
 
-    while episodes < MAX_EPISODES_SMALL:
-        state = (random.randint(0, GRID_SIZE-1), random.randint(0, GRID_SIZE-1))  # Random initial state
+    while episodes < MAX_EPISODES:
+        state = (random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1))
         done = False
-        total_reward = 0  # Track total reward for the episode
+        total_reward = 0
 
         while not done:
-            # Choose action based on epsilon-greedy strategy with decaying epsilon
             if random.uniform(0, 1) < EPSILON:
-                action = random.choice(get_possible_actions())  # Exploration
+                action = random.choice(get_possible_actions())  # Explore
             else:
-                action = get_possible_actions()[np.argmax(Q_table_small[state[0], state[1]])]  # Exploitation
-            
-            # Take action and observe new state
+                action = get_possible_actions()[np.argmax(Q_table[state[0], state[1]])]  # Exploit
+
             next_state = move(state, action)
             reward = get_reward(next_state)
             total_reward += reward
-            
-            # Update Q-value using the Q-learning formula
-            Q_table_small[state[0], state[1], get_possible_actions().index(action)] = \
-                (1 - ALPHA) * Q_table_small[state[0], state[1], get_possible_actions().index(action)] + \
-                ALPHA * (reward + GAMMA * np.max(Q_table_small[next_state[0], next_state[1]]))
-            
-            # Move to the next state
+
+            action_index = get_possible_actions().index(action)
+            best_next = np.max(Q_table[next_state[0], next_state[1]])
+
+            # Q-value update
+            Q_table[state[0], state[1], action_index] = \
+                (1 - ALPHA) * Q_table[state[0], state[1], action_index] + \
+                ALPHA * (reward + GAMMA * best_next)
+
             state = next_state
 
-            # Stop the episode if agent reaches the bottom right corner (goal state)
+            # Goal condition
             if state == (GRID_SIZE - 1, GRID_SIZE - 1):
                 done = True
 
         episodes += 1
         total_rewards.append(total_reward)
 
-        # Update epsilon: Decay epsilon after each episode
+        # Decay epsilon
         if EPSILON > EPSILON_MIN:
             EPSILON *= EPSILON_DECAY
+            EPSILON = max(EPSILON, EPSILON_MIN)
 
-        # Print completion every 10 episodes
+        # Logging every 10 episodes
         if episodes % 10 == 0:
-            print(f'Episode {episodes}/{MAX_EPISODES_SMALL} completed. Total Reward: {total_reward}, Epsilon: {EPSILON:.4f}')
+            avg_reward = np.mean(total_rewards[-10:])
+            print(f"Episode {episodes}/{MAX_EPISODES} | Avg Reward (last 10): {avg_reward:.2f} | Epsilon: {EPSILON:.4f}")
 
     print("Training complete!")
     return total_rewards
 
-# Train the Q-learning agent with the reduced number of episodes and epsilon decay
-total_rewards_small = q_learning_small()
+# Run training
+total_rewards = q_learning()
+
 
 # Visualize the rewards over episodes (to check agent’s learning progress)
-#plt.plot(total_rewards_small)
+#plt.plot(total_rewards)
 #plt.title("Training Progress: Total Rewards per Episode (Epsilon Decay)")
 #plt.xlabel("Episodes")
 #plt.ylabel("Total Reward")
+#plt.grid(True)
 #plt.show()
 
 
