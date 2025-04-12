@@ -144,3 +144,72 @@ total_rewards_small = q_learning_small()
 #plt.ylabel("Total Reward")
 #plt.show()
 
+# Methods to Test and Visualize the Trained Agent
+
+def test_agent(start_position=(0,0), max_steps=50):
+    """Test the trained agent from a given starting position"""
+    state = start_position
+    path = [state]
+    total_reward = 0
+    
+    print("\n=== Testing Trained Agent ===")
+    print(f"Starting at position: {state}")
+    
+    for step in range(max_steps):
+        # Get best action from Q-table
+        action_idx = np.argmax(Q_table_small[state[0], state[1]])
+        action = get_possible_actions()[action_idx]
+        
+        # Move to next state
+        next_state = move(state, action)
+        reward = get_reward(next_state)
+        total_reward += reward
+        
+        print(f"Step {step+1}: {state} -> {action} -> {next_state} | Reward: {reward}")
+        
+        # Update state and path
+        state = next_state
+        path.append(state)
+        
+        # Check if reached goal
+        if state == (GRID_SIZE-1, GRID_SIZE-1):
+            print("\nSUCCESS: Reached the goal!")
+            break
+            
+    print(f"\nTotal reward: {total_reward}")
+    visualize_path(path, grid)
+    
+def visualize_path(path, grid):
+    """Visualize the agent's path on the grid"""
+    plt.figure(figsize=(6,6))
+    
+    # Create a color map for the grid
+    cmap = plt.cm.get_cmap('viridis', 4)
+    plt.imshow(grid.T, cmap=cmap, vmin=0, vmax=3)  # Note: Transposed for correct x,y display
+    
+    # Plot the path
+    xs, ys = zip(*path)
+    plt.plot(ys, xs, 'r-o', linewidth=2, markersize=8)  # Note: y comes first in plotting
+    
+    # Add annotations
+    plt.colorbar(ticks=[0,1,2,3], label='0:Empty, 1:Lava, 2:Gas, 3:Crater')
+    plt.title("Agent's Navigation Path")
+    plt.xlabel("Y Coordinate")
+    plt.ylabel("X Coordinate")
+    
+    # Add grid lines
+    plt.grid(which='both', color='black', linestyle='-', linewidth=1)
+    plt.xticks(np.arange(-0.5, GRID_SIZE, 1), [])
+    plt.yticks(np.arange(-0.5, GRID_SIZE, 1), [])
+    
+    plt.show()
+
+
+    # Run the training first
+total_rewards_small = q_learning_small()
+
+# Then test the agent from different positions
+test_agent(start_position=(0,0))  # Top-left corner
+test_agent(start_position=(2,2))  # Center
+test_agent(start_position=(0, GRID_SIZE-1))  # Top-right corner
+
