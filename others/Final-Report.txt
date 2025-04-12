@@ -37,6 +37,8 @@ To make the agent achieve the balance between trying new things (exploration) an
 ϵ←ϵ×EPSILON_DECAY\epsilon \leftarrow \epsilon \times \text{EPSILON\_DECAY}ϵ←ϵ×EPSILON_DECAY 
 This controlled decay (limited by a minimum threshold) helps the agent become more efficient as it learns.
 
+7. Conclusion
+In this study, the successful application of the Markov Decision Process (MDP) and Q-learning with epsilon decay for autonomous exploration in a simulated volcanic terrain is demonstrated. The agent learned to navigate safely while avoiding hazards (lava, gas, and craters) and was able to reach the bottom-right corner of the grid. The highlight of the result is the potential of MDP-based models in autonomous systems designed for high-risk exploration tasks. The use of epsilon decay proved its importance in optimizing the exploration-exploitation trade-off, making it highly applicable for real-world scenarios requiring adaptive decision-making under uncertainty.
 
 
 
