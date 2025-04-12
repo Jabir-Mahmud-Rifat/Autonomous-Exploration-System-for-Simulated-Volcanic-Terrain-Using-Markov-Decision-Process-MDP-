@@ -45,6 +45,8 @@ The decay of epsilon over the episodes caused movement from random exploration t
 5.3 Performance Comparison
 A comparison was made between the agent’s performance and a baseline model which did not use epsilon decay. It was visible from the result that the epsilon-decayed agent outperformed the baseline in many aspects including total reward, demonstrating the importance of gradually shifting from exploration to exploitation.
 
+6. Discussion
+From the results of this study, it is confirmed that MDPs and Q-learning are effective for modeling autonomous exploration in high-risk environments like volcanic terrains. The agent's ability to balance exploration and exploitation was improved by the epsilon decay strategy which results safer and efficient navigation.
 
 7. Conclusion
 In this study, the successful application of the Markov Decision Process (MDP) and Q-learning with epsilon decay for autonomous exploration in a simulated volcanic terrain is demonstrated. The agent learned to navigate safely while avoiding hazards (lava, gas, and craters) and was able to reach the bottom-right corner of the grid. The highlight of the result is the potential of MDP-based models in autonomous systems designed for high-risk exploration tasks. The use of epsilon decay proved its importance in optimizing the exploration-exploitation trade-off, making it highly applicable for real-world scenarios requiring adaptive decision-making under uncertainty.
