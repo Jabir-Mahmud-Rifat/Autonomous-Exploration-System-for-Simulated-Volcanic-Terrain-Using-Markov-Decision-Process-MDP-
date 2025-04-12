@@ -154,15 +154,14 @@ def q_learning():
     return total_rewards
 
 
-# Run training
+# Run the training
 total_rewards = q_learning()
 
-
-# Visualize the rewards over episodes (to check agent’s learning progress)
+# Plotting the rewards
 #plt.plot(total_rewards)
-#plt.title("Training Progress: Total Rewards per Episode (Epsilon Decay)")
-#plt.xlabel("Episodes")
+#plt.xlabel("Episode")
 #plt.ylabel("Total Reward")
+#plt.title("Total Rewards per Episode")
 #plt.grid(True)
 #plt.show()
 
