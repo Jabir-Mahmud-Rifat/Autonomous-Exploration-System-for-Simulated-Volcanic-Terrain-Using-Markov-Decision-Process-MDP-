@@ -35,12 +35,12 @@ GRID_SIZE = 5  # 5x5 grid
 NUM_LAVA = 3
 NUM_GAS = 2
 NUM_CRIERS = 2
-MAX_EPISODES_SMALL = 100  # Reduced number of episodes for faster training
+MAX_EPISODES = 300  # Increased episodes for better training
 ALPHA = 0.1  # Learning rate
 GAMMA = 0.9  # Discount factor
-EPSILON = 1.0  # Initial epsilon (full exploration)
-EPSILON_MIN = 0.01  # Minimum epsilon value
-EPSILON_DECAY = 0.995  # Epsilon decay factor
+EPSILON = 1.2  # Increased initial epsilon for more exploration
+EPSILON_MIN = 0.05  # Lower minimum epsilon for better convergence
+EPSILON_DECAY = 0.990  # Slower decay for better training
 
 # Create grid
 grid = np.zeros((GRID_SIZE, GRID_SIZE))
