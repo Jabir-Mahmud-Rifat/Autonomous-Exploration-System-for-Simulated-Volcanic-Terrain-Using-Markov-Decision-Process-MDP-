@@ -99,8 +99,8 @@ def move(state, action):
     elif action == 'right':
         y = min(y + 1, GRID_SIZE - 1)
     return (x, y)
-# Q-learning algorithm for a reduced number of episodes with epsilon decay
-# Q-learning algorithm
+
+# Q-learning algorithm with enhanced exploration and tracking
 def q_learning():
     global EPSILON
     place_hazards()
@@ -113,10 +113,11 @@ def q_learning():
         total_reward = 0
 
         while not done:
+            # Epsilon-greedy action selection
             if random.uniform(0, 1) < EPSILON:
-                action = random.choice(get_possible_actions())  # Explore
+                action = random.choice(get_possible_actions())
             else:
-                action = get_possible_actions()[np.argmax(Q_table[state[0], state[1]])]  # Exploit
+                action = get_possible_actions()[np.argmax(Q_table[state[0], state[1]])]
 
             next_state = move(state, action)
             reward = get_reward(next_state)
@@ -132,25 +133,26 @@ def q_learning():
 
             state = next_state
 
-            # Goal condition
+            # End episode if goal reached
             if state == (GRID_SIZE - 1, GRID_SIZE - 1):
                 done = True
 
         episodes += 1
         total_rewards.append(total_reward)
 
-        # Decay epsilon
+        # Epsilon decay
         if EPSILON > EPSILON_MIN:
             EPSILON *= EPSILON_DECAY
             EPSILON = max(EPSILON, EPSILON_MIN)
 
         # Logging every 10 episodes
         if episodes % 10 == 0:
-            avg_reward = np.mean(total_rewards[-10:])
-            print(f"Episode {episodes}/{MAX_EPISODES} | Avg Reward (last 10): {avg_reward:.2f} | Epsilon: {EPSILON:.4f}")
+            avg_last_10 = np.mean(total_rewards[-10:])
+            print(f"Episode {episodes}/{MAX_EPISODES} | Avg Reward (last 10): {avg_last_10:.2f} | Epsilon: {EPSILON:.4f}")
 
     print("Training complete!")
     return total_rewards
+
 
 # Run training
 total_rewards = q_learning()
