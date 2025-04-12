@@ -35,12 +35,12 @@ GRID_SIZE = 5  # 5x5 grid
 NUM_LAVA = 3
 NUM_GAS = 2
 NUM_CRIERS = 2
-MAX_EPISODES = 300  # Increased episodes for better training
+MAX_EPISODES = 350  # Increased number of episodes
 ALPHA = 0.1         # Learning rate
 GAMMA = 0.9         # Discount factor
-EPSILON = 1.5       # Increased initial epsilon for more exploration
-EPSILON_MIN = 0.05  # Lower minimum to allow more flexibility
-EPSILON_DECAY = 0.985  # Slower decay to ensure exploration lasts longer
+EPSILON = 1.8       # Higher initial epsilon for more exploration
+EPSILON_MIN = 0.05  # Minimum epsilon value
+EPSILON_DECAY = 0.980  # Slower decay for more stable learning
 
 # Create grid
 grid = np.zeros((GRID_SIZE, GRID_SIZE))
@@ -54,7 +54,7 @@ def place_hazards():
     def get_unique_position():
         while True:
             pos = (random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1))
-            if pos not in placed:
+            if pos not in placed and pos != (GRID_SIZE - 1, GRID_SIZE - 1):  # Avoid placing hazards at goal
                 placed.add(pos)
                 return pos
 
@@ -68,9 +68,8 @@ def place_hazards():
         x, y = get_unique_position()
         grid[x, y] = 3  # Crater
 
-
 # Initialize Q-table
-Q_table = np.zeros((GRID_SIZE, GRID_SIZE, 4))  # 4 actions (up, down, left, right)
+Q_table = np.zeros((GRID_SIZE, GRID_SIZE, 4))  # 4 actions: up, down, left, right
 
 # Define reward function
 def get_reward(state):
@@ -82,7 +81,7 @@ def get_reward(state):
     elif grid[x, y] == 3:  # Crater
         return -80
     else:
-        return 10  # Safe exploration reward
+        return 10  # Small reward for safe tile
 
 # Define possible actions
 def get_possible_actions():
