@@ -70,19 +70,19 @@ def place_hazards():
 
 
 # Initialize Q-table
-Q_table_small = np.zeros((GRID_SIZE, GRID_SIZE, 4))  # (state, action) Q-values, 4 actions (up, down, left, right)
+Q_table = np.zeros((GRID_SIZE, GRID_SIZE, 4))  # 4 actions (up, down, left, right)
 
 # Define reward function
 def get_reward(state):
     x, y = state
     if grid[x, y] == 1:  # Lava
-        return -100  # Large penalty for lava
+        return -100
     elif grid[x, y] == 2:  # Gas
-        return -50   # Moderate penalty for gas
+        return -50
     elif grid[x, y] == 3:  # Crater
-        return -80  # Crater penalty
+        return -80
     else:
-        return 10   # Small reward for exploring new areas
+        return 10  # Safe exploration reward
 
 # Define possible actions
 def get_possible_actions():
@@ -100,7 +100,6 @@ def move(state, action):
     elif action == 'right':
         y = min(y + 1, GRID_SIZE - 1)
     return (x, y)
-
 # Q-learning algorithm for a reduced number of episodes with epsilon decay
 def q_learning_small():
     global EPSILON  # To modify the epsilon in the function
