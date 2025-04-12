@@ -1,2 +1,8 @@
-Write final reprot text here, later it will be formatted
+
+Markov Decision Processes (MDPs) have been extensively studied in autonomous exploration, particularly for mobile robots and drones. For instance, Thrun et al. (2005) demonstrated how MDPs could be used for robot navigation, providing a framework for decision-making in uncertain environments. Kormushev et al. (2011) investigated the application of reinforcement learning in guiding robots through hazardous conditions, while Sutton and Barto (2018) offered an in-depth exploration of Q-learning within the broader scope of reinforcement learning. When it comes to volcanic terrain exploration, Yuan et al. (2020) applied machine learning techniques for detecting hazards and planning paths, underlining the necessity of real-time decision-making in such environments. Despite these advancements, the application of MDPs—particularly in managing the exploration-exploitation trade-off—has not been thoroughly explored for high-risk scenarios like volcanic terrain navigation. This research seeks to fill this gap by implementing Q-learning with epsilon decay to strike a balance between exploration and safety while navigating volcanic environments.
+
+
+
+
+
 
